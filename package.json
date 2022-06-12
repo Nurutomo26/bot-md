@@ -1,7 +1,7 @@
 {
-    "name": "ShiraoriBOT-Md",
+    "name": "ClevvBotz-Md",
     "version": "0.5.1",
-    "description": "Simle Bot WhatsApp with Baileys Multi Device",
+    "description": "Simple Bot WhatsApp with Baileys Multi Device",
     "depecrated": false,
     "main": "index.js",
     "directories": {
