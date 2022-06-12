@@ -24,8 +24,11 @@ let tags = {
   'tools': 'MENU TOOLS',
   'advanced': 'ADVANCED',
   'quotes': 'MENU QUOTES',
+  'quran': 'MENU ISLAMI',
+  'audio': 'MENU AUDIO',
   'info': 'MENU INFO',
-    '': 'Tanpa Kategori',
+  'nulis': 'MENU MAGERNULIS',
+  '': 'Tanpa Kategori',
 }
 const defaultMenu = {
   before: `
