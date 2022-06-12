@@ -1,15 +1,10 @@
-/**
-* jangan ganti ya kakak kakak sekalian
-* ini cuma buat ninggalin credit gw doang :)
-**/
-
 const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia } = require('@adiwajshing/baileys')
 let fs = require('fs')
 let handler = async (m) => {
 let esce = `
-Bot ini Menggunakan Script Dari
+Creditz By : ilmanhdyt
 
-https://github.com/ilmanhdyt/ShiraoriBOT-Md`
+Klil button for look this source bot`
      const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
      templateMessage: {
          hydratedTemplate: {
@@ -26,7 +21,7 @@ https://github.com/ilmanhdyt/ShiraoriBOT-Md`
            },
                {
              quickReplyButton: {
-               displayText: 'Ok Bang',
+               displayText: 'Kembali ke menu utama',
                id: '.menu',
              }
 
