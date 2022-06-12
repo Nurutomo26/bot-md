@@ -1,15 +1,3 @@
-/**
- * Dibuat oleh : Muhammad Restu
- * ©Muhammad Restu 2021
- */
-
-/**
- * "Wahai orang-orang yang beriman, mengapakah kamu mengatakan sesuatu yang tidak kamu kerjakan?
- * Amat besar kebencian di sisi Allah bahwa kamu mengatakan apa-apa yang tidak kamu kerjakan."
- * (QS ash-Shaff: 2-3).
- */
-
-
 let handler = (m, { conn, usedPrefix, command, text }) => {
   conn.tembak = conn.tembak || { musuh: [], tembak: [] }
    if(/kiri/i.test(text)) {
@@ -36,7 +24,7 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
 
     let pos = conn.tembak.musuh.join(" ") + "\n\n\n" + conn.tembak.tembak.join(" ")
 
-    conn.deleteMessage(chat, { fromMe, id, remoteJid: chat })
+    conn.sendMessage(m.chat, { delete: { remoteJid: chat, fromMe: true, id: m.quoted.id }})
 
     if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, "©Muhammad Restu", "Tembak", `${usedPrefix}${command} tembak`)
     return conn.send2Button(m.chat, pos, "©Muhammad Restu", "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
@@ -64,7 +52,7 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
 
     let pos = conn.tembak.musuh.join(" ") + "\n\n\n" + conn.tembak.tembak.join(" ")
 
-    conn.deleteMessage(chat, { fromMe, id, remoteJid: chat })
+    conn.sendMessage(m.chat, { delete: { remoteJid: chat, fromMe: true, id: m.quoted.id }})
 
     if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, "©Muhammad Restu", "Tembak", `${usedPrefix}${command} tembak`)
     return conn.send2Button(m.chat, pos, "©Muhammad Restu", "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
@@ -75,7 +63,7 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
       global.DATABASE.data.users[m.sender].money += 1000
       m.reply("Kamu menang!\n\nUang += 1000")
     }
-    conn.deleteMessage(chat, { fromMe, id, remoteJid: chat })
+    conn.sendMessage(m.chat, { delete: { remoteJid: chat, fromMe: true, id: m.quoted.id }})
   } else {
     randMusuh = [
       ["🥷", "-", "-", "-", "-"],
