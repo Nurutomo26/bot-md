@@ -1,10 +1,10 @@
-const { WA_MESSAGE_STUB_TYPE } = require('@adiwajshing/baileys')
+const { WAMessageStubType } = require('@adiwajshing/baileys')
 
 module.exports = {
   all(m, chatUpdate) {
     let chat = global.db.data.chats[chatUpdate.jid]
     switch (m.messageStubType) {
-      case WA_MESSAGE_STUB_TYPE.CHANGE_EPHEMERAL_SETTING:
+      case WAMessageStubType.CHANGE_EPHEMERAL_SETTING:
         if (chat.detect)
           this.sendMessage(chatUpdate.jid, +m.messageStubParameters[0] ?
             'Pesan Sementara ON' :
