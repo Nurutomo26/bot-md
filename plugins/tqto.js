@@ -1,9 +1,3 @@
-/**
-* jangan dihapus/diganti ya kontol
-* lu itu cuma make jadi jangan diapa apain ya bangsat
-* mending lu tambahin deh nama lu jangan hapus kreditnya
-**/
-
 const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia } = require('@adiwajshing/baileys')
 let fs = require('fs')
 let moment = require('moment-timezone')
@@ -25,6 +19,8 @@ Ilman:
 https://github.com/ilmanhdyt
 Amirul: 
 https://github.com/amiruldev20
+JayaGanz:
+https://github.com/Jayaganz26
 `
      const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
      templateMessage: {
@@ -35,8 +31,8 @@ https://github.com/amiruldev20
            hydratedFooterText: wm,
            hydratedButtons: [{
              urlButton: {
-               displayText: '💠 Source Code',
-               url: 'https://github.com/ilmanhdyt/ShiraoriBOT-Md'
+               displayText: dtu,
+               url: urlnya
              }
 
            },
