@@ -1,8 +1,3 @@
-/**
- * TOLONG JANGAN GANTI GAMBARNYA,NOMORKU DAN SAWERIAKU
- * MENDING KALIAN TAMBAHIN NOMOR KALIAN
-*/
-
 const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia } = require('@adiwajshing/baileys')
 let handler = async (m) => {
 let duit = `*────── 「 DONATE 」 ──────*
@@ -28,15 +23,15 @@ let message = await prepareWAMessageMedia({ image: {url: 'https://telegra.ph/fil
            hydratedFooterText: wm,
            hydratedButtons: [{
              urlButton: {
-               displayText: '🏧 Saweria',
-               url: 'https://saweria.co/ilmanhdyt'
+               displayText: dtu,
+               url: urlnya
              }
 
            },
                {
              callButton: {
-               displayText: 'Call Owner',
-               phoneNumber: '+1 (205)386-6602'
+               displayText: dtc,
+               phoneNumber: phn
              }
            },           
                {
