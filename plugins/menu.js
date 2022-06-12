@@ -10,6 +10,7 @@ let tags = {
   'xp': 'MENU EXP',
   'premium': 'MENU PREMIUM',
   'group': 'MENU GROUP',
+  'admin': 'MENU ADMIN',
   'absen': 'MENU ABSEN',
   'vote': 'MENU VOTE',
   'owner': 'MENU OWNER',
