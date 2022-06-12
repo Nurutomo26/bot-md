@@ -11,7 +11,7 @@ let handler = async (m, { conn, text, participants, usedPrefix, command }) => {
         await conn.isOnWhatsApp(v + '@s.whatsapp.net')
       ])
   )).filter(v => v[1]).map(v => v[0] + '@c.us')
-  let response = await conn.groupAdd(m.chat, users)
+  let response = await conn.groupParticipantsUpdate(m.chat, users, 'add')
   if (response[users] == 408) throw `Nomor tersebut telah keluar baru² ini\nHanya bisa masuk melalui ${usedPrefix}link`
   let pp = await conn.getProfilePicture(m.chat).catch(_ => false)
   let jpegThumbnail = pp ? await (await fetch(pp)).buffer() : false
