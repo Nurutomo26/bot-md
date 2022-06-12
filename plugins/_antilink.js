@@ -4,11 +4,12 @@ let linkRegex = /chat.whatsapp.com\/(?:invite\/)?([0-9A-Za-z]{20,24})/i
 handler.before = async function (m, { isAdmin, isBotAdmin }) {
   if (m.isBaileys && m.fromMe) return true
   let chat = global.db.data.chats[m.chat];
-  let ValidLink = (m.text.includes('https://') || m.text.includes('http://'))
-  if (chat.antiLink && ValidLink && !isAdmin && !m.isBaileys && m.isGroup) {
+  let isGroupLink = linkRegex.exec(m.text)
+  //let ValidLink = (m.text.includes('https://') || m.text.includes('http://'))
+  if (chat.antiLink && isGroupLink && !isAdmin && !m.isBaileys && m.isGroup) {
     let thisGroup = isBotAdmin ? `https://chat.whatsapp.com/${await conn.groupInviteCode(m.chat)}` : 0
     if (m.text.includes(thisGroup) && thisGroup != 0) throw false // jika link grup itu sendiri gak dikick
-    await conn.reply(m.chat, `*Link Terdeteksi!*${isBotAdmin ? '' : '\n\nAku bukan admin jadi gabisa kick t_t'}\n\nKetik *.off antilink* untuk mematikan fitur ini`, '', '', '', m)
+    await conn.reply(m.chat, `*Link Grup Terdeteksi!*${isBotAdmin ? '' : '\n\nAku bukan admin jadi gabisa kick t_t'}\n\nKetik *.off antilink* untuk mematikan fitur ini`, '', '', '', m)
     this.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
   }
   return true
