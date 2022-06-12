@@ -113,7 +113,7 @@ let handler = async (m, { conn, usedPrefix: _p, args, command }) => {
     'absen': 'Absen'
   }
   if (teks == 'quran') tags = {
-    'quran': 'Al Qur\'an'
+    'quran': 'Islami'
   }
   if (teks == 'audio') tags = {
     'audio': 'Pengubah Suara'
@@ -210,7 +210,7 @@ let handler = async (m, { conn, usedPrefix: _p, args, command }) => {
           { title: 'Fun', rowId: `${_p}? fun`},
           { title: 'Database', rowId: `${_p}? database` },
           { title: 'Vote & Absen', rowId: `${_p}? vote` },
-          { title: "Al-Qur\'an", rowId: `${_p}? quran` },
+          { title: "Islami", rowId: `${_p}? quran` },
           { title: 'Pengubah Suara', rowId: `${_p}? audio` },
           { title: 'Jadi Bot', rowId: `${_p}? jadibot` },
           { title: 'Info', rowId: `${_p}? info` },
@@ -224,7 +224,7 @@ let handler = async (m, { conn, usedPrefix: _p, args, command }) => {
       footer: wm,
       mentions: await conn.parseMention(judul),
       title: '',
-      buttonText: "Klik Disini",
+      buttonText: "SELECT HERE",
       sections
     }
     return conn.sendMessage(m.chat, listMessage, { quoted: m, mentions: await conn.parseMention(judul), contextInfo: { forwardingScore: 99999, isForwarded: false }})
