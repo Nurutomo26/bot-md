@@ -10,7 +10,6 @@ handler.before = async function (m, { isAdmin, isBotAdmin }) {
     if (m.text.includes(thisGroup) && thisGroup != 0) throw false // jika link grup itu sendiri gak dikick
     await conn.reply(m.chat, `*Link Terdeteksi!*${isBotAdmin ? '' : '\n\nAku bukan admin jadi gabisa kick t_t'}\n\nKetik *.off antilink* untuk mematikan fitur ini`, '', '', '', m)
     this.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-    }
   }
   return true
 }
