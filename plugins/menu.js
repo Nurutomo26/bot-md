@@ -1,8 +1,6 @@
-let levelling = require('../lib/levelling')
 let fs = require('fs')
 let path = require('path')
-let fetch = require('node-fetch')
-let moment = require('moment-timezone')
+let levelling = require('../lib/levelling')
 let tags = {
   'main': 'MENU UTAMA',
   'game': 'MENU GAME',
@@ -27,25 +25,25 @@ let tags = {
   'advanced': 'ADVANCED',
   'quotes': 'MENU QUOTES',
   'info': 'MENU INFO',
-  '': 'Tanpa Kategori',
+    '': 'Tanpa Kategori',
 }
 const defaultMenu = {
   before: `
-╭────ꕥ *%me* ꕥ────
-│✾ Version: %version
-│✾ Library: Baileys-MD
-│✾ Mode: ${global.opts['self'] ? 'Self' : 'publik'}
-│✾ Runtime: %uptime
-╰❑
-╭─❑ 「 INFO USER 」 ❑──
-│ ✾ Name: %name
-│ ✾ Status: ---
-│ ✾ Limit: %limit
-│ ✾ Money: %money
-│ ✾ Exp: %totalexp
-│ ✾ Level: %level
-│ ✾ Role: %role
-╰❑
+╭─「 %me 」
+│ Hai, %name!
+│
+│ Tersisa *%limit Limit*
+│ Role *%role*
+│ Level *%level (%exp / %maxexp)* [%xp4levelup lagi untuk levelup]
+│ %totalexp XP in Total
+│ 
+│ Tanggal: *%week %weton, %date*
+│ Tanggal Islam: *%dateIslamic*
+│ Waktu: *%time*
+│
+│ Uptime: *%uptime (%muptime)*
+│ Database: %rtotalreg of %totalreg
+╰────
 %readmore`.trimStart(),
   header: '╭─「 *%category* 」',
   body: '│ • %cmd %islimit %isPremium',
@@ -55,12 +53,12 @@ const defaultMenu = {
 ${'```%npmdesc```'}
 `,
 }
-let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
+let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
-    let _package = JSON.parse(await fs.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
+    let package = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch(_ => '{}'))
     let { exp, limit, level, role } = global.db.data.users[m.sender]
-    let { min, xp, max } = xpRange(level, global.multiplier)
-    let name = await conn.getName(m.sender)
+    let { min, xp, max } = levelling.xpRange(level, global.multiplier)
+    let name = conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
     let locale = 'id'
     // d.getTimeZoneOffset()
@@ -134,26 +132,24 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       }),
       after
     ].join('\n')
-    let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
+    text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
       '%': '%',
       p: _p, uptime, muptime,
-      me: conn.getName(conn.user.jid),
-      npmname: _package.name,
-      npmdesc: _package.description,
-      version: _package.version,
+      me: conn.user.name,
+      npmname: package.name,
+      npmdesc: package.description,
+      version: package.version,
       exp: exp - min,
       maxexp: xp,
       totalexp: exp,
       xp4levelup: max - exp,
-      github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
+      github: package.homepage ? package.homepage.url || package.homepage : '[unknown github url]',
       level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
-    const pp = await conn.profilePictureUrl(conn.user.jid).catch(_ => './src/avatar_contact.png')
-    conn.sendFile(m.chat, pp, 'pp.jpg', text.trim(), m)
-    conn.sendFile(m.chat, 'https://b.top4top.io/m_2342mdwc51.mp3', '', '', m, true)
+    conn.reply(m.chat, text.trim(), m)
   } catch (e) {
     conn.reply(m.chat, 'Maaf, menu sedang error', m)
     throw e
@@ -162,7 +158,16 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
 handler.help = ['menu', 'help', '?']
 handler.tags = ['main']
 handler.command = /^(menu|help|\?)$/i
+handler.owner = false
+handler.mods = false
+handler.premium = false
+handler.group = false
+handler.private = false
 
+handler.admin = false
+handler.botAdmin = false
+
+handler.fail = null
 handler.exp = 3
 
 module.exports = handler
