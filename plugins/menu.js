@@ -28,6 +28,7 @@ let tags = {
   'info': 'MENU INFO',
   'berita': 'MENU BERITA',
   'nulis': 'MENU MAGERNULIS',
+  'videomaker': 'MENU VIDEOMAKER',
   '': 'NO CATEGORY',
 }
 const defaultMenu = {
