@@ -27,12 +27,13 @@ let tags = {
   'quran': 'MENU ISLAMI',
   'audio': 'MENU AUDIO',
   'info': 'MENU INFO',
+  'berita': 'MENU BERITA',
   'nulis': 'MENU MAGERNULIS',
   '': 'Tanpa Kategori',
 }
 const defaultMenu = {
   before: `
-╭─「 %me 」
+╭─「 *%me* 」
 │ Hai, %name!
 │
 │ Tersisa *%limit Limit*
@@ -152,7 +153,53 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
-    conn.reply(m.chat, text.trim(), m)
+    const pp = await conn.profilePictureUrl(conn.user.jid).catch(_ => './src/avatar_contact.png')
+    const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+     templateMessage: {
+         hydratedTemplate: {
+           hydratedContentText: text.trim(),
+           locationMessage: { 
+           jpegThumbnail: pp
+           hydratedFooterText: wm,
+           hydratedButtons: [{
+             urlButton: {
+               displayText: dtu,
+               url: urlnya
+             }
+
+           },
+             {
+             callButton: {
+               displayText: dtc,
+               PhoneNumber: phn
+             }
+
+           },
+               {
+             quickReplyButton: {
+               displayText: '🧒 Owner',
+               id: '.owner',
+             }
+
+           },
+               {
+             quickReplyButton: {
+               displayText: '💲 Donasi',
+               id: '.donasi',
+             }
+
+           },
+           {
+             quickReplyButton: {
+               displayText: '📍 Credits',
+               id: '.tqto',
+             }
+           }]
+         }
+       }
+     }), { userJid: m.sender, quoted: m })
+    return await conn.relayMessage(m.chat, template.message, { messageId: template.key.id })
+    //conn.reply(m.chat, text.trim(), m)
   } catch (e) {
     conn.reply(m.chat, 'Maaf, menu sedang error', m)
     throw e
