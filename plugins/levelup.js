@@ -1,6 +1,6 @@
 let levelling = require('../lib/levelling')
 
-let handler = async(m, { conn, usedPrefix, command }) => {
+let handler = m => {
   let user = global.db.data.users[m.sender]
   if (!levelling.canLevelUp(user.level, user.exp, global.multiplier)) {
     let { min, xp, max } = levelling.xpRange(user.level, global.multiplier)
@@ -15,7 +15,7 @@ Kurang *${max - user.exp}* lagi!
             m.reply(`
 Selamat, anda telah naik level!
 *${before}* -> *${user.level}*
-gunakan *${usedPrefix + command}* untuk mengecek
+gunakan *.profile* untuk mengecek
 	`.trim())
         }
 }

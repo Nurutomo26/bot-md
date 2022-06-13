@@ -1,10 +1,17 @@
-let fs = require('fs')
-let handler = async (m, { conn, isOwner }) => {
+/*
+   Silahkan Di Pakek
+   Tapi Bantu Rapihin :v
+   Buatan: Miaweers
+*/
+
+let handler = async (m, { conn }) => {
   let prem = global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter(v => v != conn.user.jid)
-  conn.reply(m.chat, `┌〔 Daftar Pengguna Premium 〕` + `\n` + prem.map(v => isOwner ? '├ @' + v.replace(/@.+/, '') : '│ ' + conn.getName(v)).join`\n` + '\n└────', m, { contextInfo: { mentionedJid: prem } })
+  conn.reply(m.chat, `「 List Premium 」
+` + prem.map(v => '- @' + v.replace(/@.+/, '')).join`\n`, m, { contextInfo: { mentionedJid: prem } })
 }
-handler.help = ['listprem']
-handler.tags = ['info']
+handler.help = ['premlist']
+handler.tags = ['owner']
 handler.command = /^(listprem|premlist)$/i
+handler.owner = true
 
 module.exports = handler

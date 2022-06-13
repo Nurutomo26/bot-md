@@ -24,3 +24,4 @@ handler.tags = ['internet']
 handler.command = /^(fetch|get)$/i
 
 module.exports = handler
+
