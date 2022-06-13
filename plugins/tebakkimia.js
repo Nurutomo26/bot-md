@@ -1,8 +1,3 @@
-/**
-diupload oleh https://github.com/uhdahlah
-**/
-
-
 let fetch = require('node-fetch')
 
 let timeout = 120000

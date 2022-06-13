@@ -1,11 +1,17 @@
-let fetch = require('node-fetch')
+let fetch = require("node-fetch")
 let handler = async (m, { conn }) => {
-    let url = global.API('xteam', '/randomimage/meme', {}, 'APIKEY')
-    await conn.sendFile(m.chat, url, '', '', m, 0, { thumbnail: await (await fetch(url)).buffer() })
+  let res = await fetch(global.API('https://some-random-api.ml', '/meme'))
+  if (!res.ok) throw await res.text()
+  let json = await res.json()
+  if (!json.image) throw 'Err!'
+  conn.sendFile(m.chat, json.image, 'meme.png', json.caption, m)
 }
+
 handler.help = ['meme']
-handler.tags = ['fun']
+handler.tags = ['internet']
+
 handler.command = /^(meme)$/i
-handler.limit = true
+
+handler.group = true
 
 module.exports = handler
