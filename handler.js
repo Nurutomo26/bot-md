@@ -209,7 +209,8 @@ module.exports = {
           if (!isNumber(settings.backupDB)) settings.backupDB = 0
           if (!'groupOnly' in settings) settings.groupOnly = false
           if (!'jadibot' in settings) settings.groupOnly = false
-          if (!'nsfw' in settings) settings.nsfw = true
+          if (!('autoread' in settings)) settings.autoread = true
+          if (!'nsfw' in settings) settings.nsfw = false
           if (!isNumber(settings.status)) settings.status = 0
         } else global.db.data.settings = {
           anon: true,
@@ -220,6 +221,7 @@ module.exports = {
           backupDB: 0,
           groupOnly: false,
           jadibot: false,
+          autoread: true,
           nsfw: false,
           status: 0,
         }                
@@ -528,6 +530,31 @@ Untuk mematikan fitur ini, ketik
             mentions: [participant]
         })
         this.copyNForward(msg.key.remoteJid, msg).catch(e => console.log(e, msg))
+    }
+}
+
+/*global.ws.on('CB:call', async (json) => {
+const callerId = json.content[0].attrs['call-creator']
+if (json.content[0].tag == 'offer') {
+conn.sendMessage(m.chat, `*Panggilan Terdeteksi*\n\n_Maaf kamu diblockir karena telah menelpon bot ini, silakan hubungi owner untuk melepas blockiran kamu_`, m)
+await this.updateBlockStatus(callerId, "block")
+}
+})*/
+
+    async onCall(json) {
+        if (!setting.anticall) return
+        let { from } = json.content[0].attrs['call-creator']
+        let users = global.DATABASE.data.users
+        let user = users[from] || {}
+        if (user.whitelist) return
+        switch (this.callWhitelistMode) {
+            case 'mycontact':
+                if (from in this.contacts && 'short' in this.contacts[from])
+                    return
+                break
+        }
+        await this.sendMessage(from, 'Kamu diblockir karena telah menelpon bot!', MessageType.extendedText)
+        await this.updateBlockStatus(from, "block")
     }
 }
 
