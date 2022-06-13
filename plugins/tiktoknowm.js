@@ -1,15 +1,24 @@
 let fetch = require('node-fetch')
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-    if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.tiktok.com/@omagadsus/video/7025456384175017243`
-    let anu = await fetch(global.API('neoxr', '/api/tiktok', { url: args[0] }, 'apikey'))
-    let json = await anu.json()
-    conn.sendFile(m.chat, json.data.video, 'tiktok.mp4', `
-- Author: ${json.author}
-- Caption: ${json.caption}`.trim(), m)
+let handler = async (m, { conn, args }) => {
+  if (!args[0]) throw 'Uhm...url nya mana?'
+  let res = await fetch(global.API('xteam', '/dl/tiktok', {
+    url: args[0]
+  }, 'APIKEY'))
+  if (res.status !== 200) throw await res.text()
+  let json = await res.json()
+  if (!json.status) throw json
+  let url = json.result.link_dl1 || json.result.link_dl2 || ''
+  if (!url) throw 'Gagal mengambil url download'
+  let txt = `
+  - *By:* ${json.result.name}
+  - *Caption:*
+  ${json.result.caption}
+    `
+    await conn.sendFile(m.chat, url, 'tiktok.mp4', txt.trim(), m)
 }
-handler.help = ['tiktok', 'tiktoknowm', 'tt'].map(v => v + ' <url>')
+handler.help = ['tiktok'].map(v => v + ' <url>')
 handler.tags = ['downloader']
 
-handler.command = /^(tt|tik(tok)?(dl|nowm)?)$/i
+handler.command = /^(tik(tok)?(dl)?)$/i
 
 module.exports = handler
