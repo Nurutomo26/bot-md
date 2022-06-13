@@ -8,7 +8,6 @@ let tags = {
   'xp': 'MENU EXP',
   'premium': 'MENU PREMIUM',
   'group': 'MENU GROUP',
-  'admin': 'MENU ADMIN',
   'absen': 'MENU ABSEN',
   'vote': 'MENU VOTE',
   'owner': 'MENU OWNER',
@@ -29,7 +28,7 @@ let tags = {
   'info': 'MENU INFO',
   'berita': 'MENU BERITA',
   'nulis': 'MENU MAGERNULIS',
-  '': 'Tanpa Kategori',
+  '': 'NO CATEGORY',
 }
 const defaultMenu = {
   before: `
