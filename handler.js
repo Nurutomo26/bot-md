@@ -533,31 +533,6 @@ Untuk mematikan fitur ini, ketik
     }
 }
 
-/*global.ws.on('CB:call', async (json) => {
-const callerId = json.content[0].attrs['call-creator']
-if (json.content[0].tag == 'offer') {
-conn.sendMessage(m.chat, `*Panggilan Terdeteksi*\n\n_Maaf kamu diblockir karena telah menelpon bot ini, silakan hubungi owner untuk melepas blockiran kamu_`, m)
-await this.updateBlockStatus(callerId, "block")
-}
-})*/
-
-    async onCall(json) {
-        if (!setting.anticall) return
-        let { from } = json.content[0].attrs['call-creator']
-        let users = global.DATABASE.data.users
-        let user = users[from] || {}
-        if (user.whitelist) return
-        switch (this.callWhitelistMode) {
-            case 'mycontact':
-                if (from in this.contacts && 'short' in this.contacts[from])
-                    return
-                break
-        }
-        await this.sendMessage(from, 'Kamu diblockir karena telah menelpon bot!', MessageType.extendedText)
-        await this.updateBlockStatus(from, "block")
-    }
-}
-
 global.dfail = (type, m, conn) => {
     let msg = {
         rowner: 'Perintah ini hanya dapat digunakan oleh _*OWWNER!1!1!*_',
