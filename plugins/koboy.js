@@ -26,8 +26,8 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
 
     conn.sendMessage(m.chat, { delete: { remoteJid: chat, fromMe: true, id: m.quoted.id }})
 
-    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, "©Muhammad Restu", "Tembak", `${usedPrefix}${command} tembak`)
-    return conn.send2Button(m.chat, pos, "©Muhammad Restu", "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
+    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, wm, "Tembak", `${usedPrefix}${command} tembak`)
+    return conn.send2Button(m.chat, pos, wm, "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
   } else if(/kanan/i.test(text)) {
     let { chat, fromMe, id, isBaileys } = m.quoted
     let kanan = [
@@ -54,8 +54,8 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
 
     conn.sendMessage(m.chat, { delete: { remoteJid: chat, fromMe: true, id: m.quoted.id }})
 
-    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, "©Muhammad Restu", "Tembak", `${usedPrefix}${command} tembak`)
-    return conn.send2Button(m.chat, pos, "©Muhammad Restu", "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
+    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, wm, "Tembak", `${usedPrefix}${command} tembak`)
+    return conn.send2Button(m.chat, pos, wm, "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
   } else if(/tembak/i.test(text)) {
     let { chat, fromMe, id, isBaileys } = m.quoted
     if(conn.tembak.tembak.indexOf("🤠") == conn.tembak.musuh.indexOf("🥷")) {
@@ -88,8 +88,8 @@ let handler = (m, { conn, usedPrefix, command, text }) => {
 
     let pos = conn.tembak.musuh.join(" ") + "\n\n\n" + conn.tembak.tembak.join(" ")
 
-    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, "©Muhammad Restu", "Tembak", `${usedPrefix}${command} tembak`)
-    return conn.send2Button(m.chat, pos, "©Muhammad Restu", "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
+    if(conn.tembak.musuh.indexOf("🥷") === conn.tembak.tembak.indexOf("🤠")) return conn.sendButton(m.chat, pos, wm, "Tembak", `${usedPrefix}${command} tembak`)
+    return conn.send2Button(m.chat, pos, wm, "←", `${usedPrefix}${command} kiri`, "→", `${usedPrefix}${command} kanan`)
   }
 }
 
