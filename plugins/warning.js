@@ -10,7 +10,7 @@ let handler = async (m, { conn, groupMetadata }) => {
         global.db.data.users[mention].warn = 0
         m.reply('Selamat tinggal')
         await time(5000)
-        await conn.groupRemove(m.chat, [mention])
+        await conn.groupParticipantsUpdate(m.chat, [mention], 'remove')
         m.reply(`Kamu dikeluarkan dari group ${groupMetadata.subject} karena telah mendapat 3 kali warn`, mention)
     }
 }
