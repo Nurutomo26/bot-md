@@ -1,50 +1,50 @@
-let fetch = require('node-fetch')
-let handler = async (m, { conn, text, participants, usedPrefix, command }) => {
-  if (!text) throw `_Masukkan nomor!_ \nContoh:\n\n${usedPrefix + command + ' ' + global.owner[0]}`
-  let _participants = participants.map(user => user.jid)
-  let users = (await Promise.all(
-    text.split(',')
-      .map(v => v.replace(/[^0-9]/g, ''))
-      .filter(v => v.length > 4 && v.length < 20 && !_participants.includes(v + '@s.whatsapp.net'))
-      .map(async v => [
-        v,
-        await conn.isOnWhatsApp(v + '@s.whatsapp.net')
-      ])
-  )).filter(v => v[1]).map(v => v[0] + '@c.us')
-  let response = await conn.groupParticipantsUpdate(m.chat, users, 'add')
-  if (response[users] == 408) throw `Nomor tersebut telah keluar baru² ini\nHanya bisa masuk melalui ${usedPrefix}link`
-  let pp = await conn.getProfilePicture(m.chat).catch(_ => false)
-  let jpegThumbnail = pp ? await (await fetch(pp)).buffer() : false
-  for (let user of response.participants.filter(user => Object.values(user)[0].code == 403)) {
-    let [[jid, {
-      invite_code,
-      invite_code_exp
-    }]] = Object.entries(user)
-    let teks = `Mengundang @${jid.split('@')[0]} menggunakan invite...`
-    m.reply(teks, null, {
-      contextInfo: {
-        mentionedJid: conn.parseMention(teks)
-      }
+const fetch = require('node-fetch')
+const { getBinaryNodeChild, getBinaryNodeChildren } = require('@adiwajshing/baileys')
+let handler = async (m, { conn, text, participants }) => {
+    let _participants = participants.map(user => user.id)
+    let users = (await Promise.all(
+        text.split(',')
+            .map(v => v.replace(/[^0-9]/g, ''))
+            .filter(v => v.length > 4 && v.length < 20 && !_participants.includes(v + '@s.whatsapp.net'))
+            .map(async v => [
+                v,
+                await conn.onWhatsApp(v + '@s.whatsapp.net')
+            ])
+    )).filter(v => v[1][0]?.exists).map(v => v[0] + '@c.us')
+    const response = await conn.query({
+        tag: 'iq',
+        attrs: {
+            type: 'set',
+            xmlns: 'w:g2',
+            to: m.chat,
+        },
+        content: users.map(jid => ({
+            tag: 'add',
+            attrs: {},
+            content: [{ tag: 'participant', attrs: { jid } }]
+        }))
     })
-    await conn.sendGroupV4Invite(m.chat, jid, invite_code, invite_code_exp, false, 'Invitation to join my WhatsApp group', jpegThumbnail ? {
-      jpegThumbnail
-    } : {})
-  }
+    const pp = await conn.profilePictureUrl(m.chat).catch(_ => null)
+    const jpegThumbnail = pp ? await (await fetch(pp)).buffer() : Buffer.alloc(0)
+    const add = getBinaryNodeChild(response, 'add')
+    const participant = getBinaryNodeChildren(add, 'participant')
+    for (const user of participant.filter(item => item.attrs.error == 403)) {
+        const jid = user.attrs.jid
+        const content = getBinaryNodeChild(user, 'add_request')
+        const invite_code = content.attrs.code
+        const invite_code_exp = content.attrs.expiration
+        let teks = `Mengundang @${jid.split('@')[0]} menggunakan invite...`
+        m.reply(teks, null, {
+            mentions: conn.parseMention(teks)
+        })
+        await conn.sendGroupV4Invite(m.chat, jid, invite_code, invite_code_exp, await conn.getName(m.chat), 'Undangan untuk bergabung dengan grup whatsapp saya', jpegThumbnail)
+    }
 }
-handler.help = ['add', '+'].map(v => v + ' nomor,nomor')
-handler.tags = ['admin']
+handler.help = ['add', '+'].map(v => v + ' @user')
+handler.tags = ['group']
 handler.command = /^(add|\+)$/i
-handler.owner = false
-handler.mods = false
-handler.premium = false
-handler.group = true
-handler.private = false
 
-handler.admin = true
+handler.group = true
 handler.botAdmin = true
 
-handler.fail = null
-handler.limit = true
-
 module.exports = handler
-
