@@ -1,4 +1,3 @@
-//made by https://github.com/Paquito1923
 const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia } = require('@adiwajshing/baileys')
 const { servers, yta, ytv } = require('../lib/y2mate')
 let fs = require('fs')
@@ -28,15 +27,15 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
   if (yt === false) throw 'semua server gagal'
   if (yt2 === false) throw 'semua server gagal'
   let { dl_link, thumb, title, filesize, filesizeF } = yt
-let anu =  `
+let anu = `
 *Judul:* ${title}
+
 *Ukuran File Audio:* ${filesizeF}
 *Ukuran File Video:* ${yt2.filesizeF}
-*Server y2mate:* ${usedServer}
-*link sumber:* 
-${vid.url}
 
-`
+*Server y2mate:* ${usedServer}
+*link sumber:*
+${vid.url}`
      const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
      templateMessage: {
          hydratedTemplate: {
@@ -46,14 +45,14 @@ ${vid.url}
            hydratedFooterText: wm,
            hydratedButtons: [{
              urlButton: {
-               displayText: 'DONASI',
-               url: 'https://saweria.co/ilmanhdyt',
+               displayText: dtu,
+               url: urlnya,
              }
 
            },
                {
              quickReplyButton: {
-               displayText: 'video',
+               displayText: 'Video',
                id: `.ytmp4 ${vid.url}`,
              }
 
