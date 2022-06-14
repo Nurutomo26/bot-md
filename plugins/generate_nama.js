@@ -31,7 +31,7 @@ function handler(m, { text }) {
         }[v.toLowerCase()] || v
     }))
 }
-handler.help = ['Namaninja <teks>']
+handler.help = ['namaninja <teks>']
 handler.tags = ['fun']
 handler.command =  /^(namaninja|namae)$/i
 handler.owner = false
