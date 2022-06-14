@@ -1,4 +1,4 @@
-let { sticker } = require('../lib/sticker.js')
+let { sticker } = require('../lib/sticker')
 let fetch = require('node-fetch')
 
 let handler = async (m, { conn, args, text, usedPrefix, command }) => {
