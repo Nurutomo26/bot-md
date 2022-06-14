@@ -11,7 +11,7 @@ let handler = async (m) => {
   }
 }
 
-handler.help = ['Delwarn @user']
+handler.help = ['delwarn @user']
 handler.tags = ['group']
 handler.command = /^delwarn$/i
 
