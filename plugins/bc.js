@@ -1,18 +1,16 @@
 const { randomBytes } = require('crypto')
 
-let handler = async (m, { conn, isOwner, isROwner, text }) => {
+let handler = async (m, { conn, text }) => {
     const delay = time => new Promise(res => setTimeout(res, time))
-    let chat = conn.chats.all().filter(v => !v.read_only && v.message && !v.archive)
-    let chats = Object.entries(chat).slice(0).map(entry => entry[1])
-    let anu = chats.map(v => v.id)
+    let chats = Object.keys(await conn.chats)
     let pesan = m.quoted && m.quoted.text ? m.quoted.text : text
     if(!pesan) throw 'teksnya?'
-    m.reply(`Mengirim Broadcast Ke ${anu.length} Chat, Waktu Selesai ${anu.length * 0.5} detik`)
-    for (let i of anu) {
+    m.reply(`Mengirim Broadcast Ke ${chats.length} Chat, Waktu Selesai ${chats.length * 0.5} detik`)
+    for (let i of chats) {
     await delay(500)
     conn.reply(i,pesan + '\n' + readMore + '「 All Chat Broadcast 」\n' + randomID(32)).catch(_ => _)
     }
-  m.reply('Sukses Mengirim Broadcast Ke ${anu.length} Chat')
+  m.reply('Sukses Mengirim Broadcast Ke ${chats.length} Chat')
 }
 handler.help = ['broadcast', 'bc'].map(v => v + ' <teks>')
 handler.tags = ['owner']
