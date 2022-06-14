@@ -8,9 +8,8 @@ let handler = async (m, { conn }) => {
 }
 handler.help = ['nekonsfw']
 handler.tags = ['nsfw']
-handler.command = /^(nekonsfw)$/i
 
-handler.limit = true
-handler.nsfw = true
+handler.command = /^(nekonsfw)$/i
+handler.premium = true
 
 module.exports = handler
