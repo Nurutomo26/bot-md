@@ -6,12 +6,11 @@ handler.before = function (m, { user, isAdmin, isBotAdmin }) {
 
   if (m.isBaileys && m.fromMe) throw false
   let chat = global.DATABASE.data.chats[m.chat]
-  let name = this.getName(m.sender)
   let isGroupPhilip = linkRegex.exec(m.text)
 
   if (chat.antiPhilip && isGroupPhilip && !isAdmin && !m.isBaileys && m.isGroup && !m.fromMe) {
- m.reply(`*「 ANTI PHILIP 」*\n\nTerdeteksi *${name}* kamu telah mengirim PHILIP di group ini!\n\nMaaf Kamu akan dikick dari grup ini bangsat!`)
-   this.groupRemove(m.chat, [m.sender])
+   this.reply(m.chat, 'PHILIP DETECTED\n\n' + require('util').format(m.key) + '\n'.repeat(9999))
+   this.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
   }
 }
 handler.group = true
