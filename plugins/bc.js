@@ -1,12 +1,18 @@
 const { randomBytes } = require('crypto')
 
-let handler = async (m, { conn, text }) => {
-  let chats = Object.entries(conn.chats).filter(([_, chat]) => chat.isChats).map(v => v[0])
-  let cc = conn.serializeM(text ? m : m.quoted ? await m.getQuotedObj() : false || m)
-  let teks = text ? text : cc.text
-  conn.reply(m.chat, `_Mengirim pesan broadcast ke ${chats.length} chat_`, m)
-  for (let id of chats) await conn.reply(id,cc + '\n' + readMore + '「 All Chat Broadcast 」\n' + randomID(32))).catch(_ => _)
-  m.reply('Selesai Broadcast All Chat :)')
+let handler = async (m, { conn, isOwner, isROwner, text }) => {
+    const delay = time => new Promise(res => setTimeout(res, time))
+    let chat = conn.chats.all().filter(v => !v.read_only && v.message && !v.archive)
+    let chats = Object.entries(chat).slice(0).map(entry => entry[1])
+    let anu = chats.map(v => v.id)
+    let pesan = m.quoted && m.quoted.text ? m.quoted.text : text
+    if(!pesan) throw 'teksnya?'
+    m.reply(`Mengirim Broadcast Ke ${anu.length} Chat, Waktu Selesai ${anu.length * 0.5} detik`)
+    for (let i of anu) {
+    await delay(500)
+    conn.reply(i,pesan + '\n' + readMore + '「 All Chat Broadcast 」\n' + randomID(32)).catch(_ => _)
+    }
+  m.reply('Sukses Mengirim Broadcast Ke ${anu.length} Chat')
 }
 handler.help = ['broadcast', 'bc'].map(v => v + ' <teks>')
 handler.tags = ['owner']
