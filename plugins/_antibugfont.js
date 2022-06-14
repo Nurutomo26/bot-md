@@ -6,7 +6,6 @@ handler.before = function (m, { user, isAdmin, isBotAdmin }) {
 
   if (m.isBaileys && m.fromMe) throw false
   let chat = global.DATABASE.data.chats[m.chat]
-  let name = this.getName(m.sender)
   let isGroupFont = linkRegex.exec(m.text)
 
   if (chat.antiBugfont && isGroupFont) {
@@ -14,5 +13,6 @@ handler.before = function (m, { user, isAdmin, isBotAdmin }) {
   this.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
   }
 }
+handler.group = true
 
 module.exports = handler
