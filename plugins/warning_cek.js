@@ -4,7 +4,7 @@ let handler = async (m, { conn }) => {
       m.reply(`Kamu memiliki Total Warning : ${warn}`)
 }
 
-handler.help = ['Cekwarn @user']
+handler.help = ['cekwarn @user']
 handler.tags = ['group']
 handler.command = /^cekwarn$/i
 
