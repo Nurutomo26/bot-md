@@ -182,6 +182,8 @@ module.exports = {
                     if (!('antiLink' in chat)) chat.antiLink = true
                     if (!('simi' in chat)) chat.simi = false
                     if (!('viewonce' in chat)) chat.viewonce = false
+                    if (!('antiPhilip' in chat)) chat.antiPhilip = true
+                    if (!('antiBugFont' in chat)) chat.antiBugFont = true
                     if (!('antiToxic' in chat)) chat.antiToxic = false
                 } else global.db.data.chats[m.chat] = {
                     isBanned: false,
@@ -195,6 +197,8 @@ module.exports = {
                     antiLink: true,
                     simi: false,
                     viewonce: false,
+                    antiPhilip: true,
+                    antiBugFont: true,
                     antiToxic: true,
                 }
                 
